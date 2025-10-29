@@ -38,3 +38,4 @@
                  SALES-AMOUNT * .0785
               DISPLAY "SALES TAX = " SALES-TAX
            END-IF.
+      *
