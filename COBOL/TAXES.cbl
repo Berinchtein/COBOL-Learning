@@ -1,6 +1,6 @@
        IDENTIFICATION DIVISION.
       *
-       PROGRAM-ID. TESTSALES.
+       PROGRAM-ID. TAXE0001.
       *
        ENVIRONMENT DIVISION.
       *
@@ -38,4 +38,3 @@
                  SALES-AMOUNT * .0785
               DISPLAY "SALES TAX = " SALES-TAX
            END-IF.
-      *
