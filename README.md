@@ -1,6 +1,6 @@
 # Apprentissage COBOL
 
-Ce répertoire contient mes fichiers COBOL provenant de mon apprentissage de ce language. 
+Ce répertoire contient mes fichiers COBOL provenant de mon apprentissage de ce language.
 
 ## Logiciels utilisés
 L'installation des logiciels suivants a été effectuée sur Windows 10 (PC de bureau) ainsi que sur Ubuntu/Pop!_OS (Laptop d'école). Les processus d'installation sont donc adaptés pour chaque système d'exploitation.
@@ -25,6 +25,7 @@ Manque d'accès à un vrai mainframe IBM, ce logiciel permet de compiler en C et
 
 #### Installation
 Windows: Un fichier exécutable .msi est fourni par le développeur à <https://gnucobol.sourceforge.io/>.
+
 Linux: `sudo apt install gnucobol3 && cobc -v`
 
 ## Compilation et exécution des fichiers
@@ -66,3 +67,14 @@ Ensuite, le fichier nouvellement construit peut être exécuté directement dans
 
 #### Démonstration
 Une démonstration de ce processus est disponible sur ma chaine YouTube: <https://youtu.be/ZQyL5lcUBXI?si=IHf-fkAaVUp_eu7o>
+
+## Ressources principales utilisées
+
+### Murach’s Mainframe COBOL (Mike Murach)
+*Ajouter description*
+
+### COBOL Software Modernization (Franck Barbier)
+*Ajouter description*
+
+### Mainframe: The Complete COBOL Course From Beginner to Expert
+*Ajouter description*
