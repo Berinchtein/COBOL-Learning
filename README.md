@@ -1,6 +1,6 @@
 # Apprentissage COBOL
 
-Ce répertoire contient mes fichiers COBOL provenant de mon apprentissage de ce language.
+Ce répertoire contient mes fichiers COBOL provenant de mon apprentissage de ce language. Je décrit aussi le processus d'apprentissage avec les logiciels que j'utilise et les ressources que je consulte.
 
 ## Logiciels utilisés
 L'installation des logiciels suivants a été effectuée sur Windows 10 (PC de bureau) ainsi que sur Ubuntu/Pop!_OS (Laptop d'école). Les processus d'installation sont donc adaptés pour chaque système d'exploitation.
