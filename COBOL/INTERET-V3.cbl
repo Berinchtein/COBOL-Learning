@@ -28,8 +28,8 @@
        WORKING-STORAGE SECTION.
       *
        01 SWITCHES.
-          05 FIN-DE-SECTION-SWITCH      PIC X           VALUE "N".
-          05 CONFIRM-ENTREE-SWITCH     PIC X           VALUE "N".
+          05 FIN-DE-SECTION-SWITCH      PIC X          VALUE "N".
+          05 CONFIRM-ENTREE-SWITCH      PIC X          VALUE "N".
       *
        01 ENTREES-UTILISATEUR.
           05 VALEURS-MONETAIRES.
@@ -41,6 +41,7 @@
       *
        01 VARIABLES-TRAVAIL.
           05 VALEURS-MONETAIRES.
+             10 TAUX-INTERET-FORTMATTE  PIC Z9.99.
              10 VALEUR-FUTURE           PIC 9(7)V99.
              10 VALEUR-FUTURE-FORMATTEE PIC Z,ZZZ,ZZZ.99.
       *
@@ -71,13 +72,13 @@
            PERFORM 230-DMD-TYPE-TAUX-INTERET.
            IF (TYPE-TAUX-INTERET = "ANNUEL"
               OR TYPE-TAUX-INTERET = "annuel")
-                 COMPUTE VALEUR-FUTURE =
-                    VALEUR-ACTUELLE *(1 +
-                    TAUX-INTERET / 100) **
-                    NOMBRE-D-ANNEES
+              COMPUTE VALEUR-FUTURE =
+                 VALEUR-ACTUELLE *(1 +
+                 TAUX-INTERET / 100) **
+                 NOMBRE-D-ANNEES
            ELSE
               IF (TYPE-TAUX-INTERET = "MENSUEL"
-              OR TYPE-TAUX-INTERET = "mensuel")
+                 OR TYPE-TAUX-INTERET = "mensuel")
                  COMPUTE VALEUR-FUTURE =
                     VALEUR-ACTUELLE *(1 +
                     (TAUX-INTERET / 12) / 100) **
@@ -106,30 +107,31 @@
            ACCEPT TAUX-INTERET.
            IF (TAUX-INTERET < 0 OR TAUX-INTERET > 50)
               DISPLAY "TAUX D'INTERET ANNUEL INCORRECT. "
-                       "VEUILLEZ REESSAYER."
+                      "VEUILLEZ REESSAYER."
               *> GO TO INTERNE POUR BOUCLE
               GO TO 220-DMD-TAUX-INTERET
            END-IF.
            PERFORM 221-DMD-CONFIRM-TAUX-INTERET.
       *
        221-DMD-CONFIRM-TAUX-INTERET.
-           DISPLAY "VOUS AVEZ ENTRÉ " TAUX-INTERET
-                    "% DE TAUX D'INTERET. EST-CE EXACT? (Y/N)".
+           MOVE TAUX-INTERET TO TAUX-INTERET-FORTMATTE.
+           DISPLAY "VOUS AVEZ ENTRÉ "
+                   TAUX-INTERET-FORTMATTE
+                   "% DE TAUX D'INTERET. EST-CE EXACT? (Y/N)".
            ACCEPT CONFIRM-ENTREE-SWITCH.
-           IF CONFIRM-ENTREE-SWITCH NOT = "Y" OR NOT "N"
+           IF (CONFIRM-ENTREE-SWITCH NOT = "Y" AND NOT = "N")
               DISPLAY "ENTREE INCORRECTE. "
-                       "VEUILLEZ REESSAYER."
-              *> GO TO INTERNE POUR BOUCLE
+                      "VEUILLEZ REESSAYER."
+                 *> GO TO INTERNE POUR BOUCLE
               GO TO 221-DMD-CONFIRM-TAUX-INTERET
            ELSE
               IF CONFIRM-ENTREE-SWITCH = "N"
-                 *> GO TO EXTERNE POUR BOUCLE
-                 GO TO 220-DMD-TAUX-INTERET
-           END-IF.
+                 PERFORM 220-DMD-TAUX-INTERET
+              END-IF.
       *
        230-DMD-TYPE-TAUX-INTERET.
            DISPLAY "ENTRER LA "
-                    "FREQUENCE D'APPLICATION DU TAUX D'INTERET:".
+                   "FREQUENCE D'APPLICATION DU TAUX D'INTERET:".
            DISPLAY "TYPES POSSIBLE: 'ANNUEL', 'MENSUEL' ET 'QUOTIDIEN".
            ACCEPT TYPE-TAUX-INTERET.
            IF (TYPE-TAUX-INTERET NOT = "ANNUEL"
@@ -139,8 +141,7 @@
               AND NOT = "QUOTIDIEN"
               AND NOT = "quotidien")
               DISPLAY "FREQUENCE D'APPLICATION DU TAUX D'INTERET "
-                       "INCORRECT. VEUILLEZ REESSAYER."
+                      "INCORRECT. VEUILLEZ REESSAYER."
               *> GO TO INTERNE POUR BOUCLE
               GO TO 230-DMD-TYPE-TAUX-INTERET
            END-IF.
-           
