@@ -13,7 +13,7 @@
        AUTHOR. MANUEL JARRY. 
        INSTALLATION. COBOL DEVELOPMENT CENTER. 
        DATE-WRITTEN. 31/10/2025. 
-       DATE-COMPILED. DD/MM/2025. 
+       DATE-COMPILED. 31/10/2025. 
        SECURITY. NON-CONFIDENTIAL.
       *****************************************************************
       *
@@ -28,7 +28,8 @@
        WORKING-STORAGE SECTION.
       *
        01 SWITCHES.
-          05 FIN-DE-SECTION-SWITCH      PIC 9          VALUE 0.
+          05 FIN-DE-SECTION-SWITCH      PIC X           VALUE "N".
+          05 CONFIRM-ENTREE-SWITCH     PIC X           VALUE "N".
       *
        01 ENTREES-UTILISATEUR.
           05 VALEURS-MONETAIRES.
@@ -48,7 +49,7 @@
        000-CALCUL-TOTAL-INTERET.
       *
            PERFORM 100-CALCUL-UN-INTERET
-              UNTIL FIN-DE-SECTION-SWITCH = 1.
+              UNTIL FIN-DE-SECTION-SWITCH = "Y".
            DISPLAY "FIN DU PROGRAMME.".
            STOP RUN.
       *
@@ -56,25 +57,27 @@
       *
            DISPLAY "--------------------------------------------------".
            DISPLAY "POUR TERMINER LE PROGRAMME, ENTRER 0.".
-           DISPLAY "ENTRER LE MONTANT DE L'INVESTISSEMENT.".
+           DISPLAY "ENTRER LE MONTANT DE L'INVESTISSEMENT:".
            ACCEPT VALEUR-ACTUELLE.
            IF VALEUR-ACTUELLE = 0
-              MOVE 1 TO FIN-DE-SECTION-SWITCH
+              MOVE "Y" TO FIN-DE-SECTION-SWITCH
            ELSE
               PERFORM 200-MONTRER-VALEUR-FUTURE
            END-IF.
       *
        200-MONTRER-VALEUR-FUTURE.
-           PERFORM 210-DEMANDER-NOMBRE-ANNEES.
-           PERFORM 220-DEMANDER-TAUX-INTERET.
-           PERFORM 230-DEMANDER-TYPE-TAUX-INTERET.
-           IF TYPE-TAUX-INTERET = "ANNUEL"
-              COMPUTE VALEUR-FUTURE =
-                 VALEUR-ACTUELLE *(1 +
-                 TAUX-INTERET / 100) **
-                 NOMBRE-D-ANNEES
+           PERFORM 210-DMD-NOMBRE-ANNEES.
+           PERFORM 220-DMD-TAUX-INTERET.
+           PERFORM 230-DMD-TYPE-TAUX-INTERET.
+           IF (TYPE-TAUX-INTERET = "ANNUEL"
+              OR TYPE-TAUX-INTERET = "annuel")
+                 COMPUTE VALEUR-FUTURE =
+                    VALEUR-ACTUELLE *(1 +
+                    TAUX-INTERET / 100) **
+                    NOMBRE-D-ANNEES
            ELSE
-              IF TYPE-TAUX-INTERET = "MENSUEL"
+              IF (TYPE-TAUX-INTERET = "MENSUEL"
+              OR TYPE-TAUX-INTERET = "mensuel")
                  COMPUTE VALEUR-FUTURE =
                     VALEUR-ACTUELLE *(1 +
                     (TAUX-INTERET / 12) / 100) **
@@ -87,34 +90,57 @@
               END-IF
            END-IF.
            MOVE VALEUR-FUTURE TO VALEUR-FUTURE-FORMATTEE.
-           DISPLAY "VALEUR-FUTURE = " VALEUR-FUTURE.
+           DISPLAY "VALEUR-FUTURE = " VALEUR-FUTURE-FORMATTEE "$".
       *
-       210-DEMANDER-NOMBRE-ANNEES.
-           DISPLAY "ENTRER LE NOMBRE D'ANNEES.".
+       210-DMD-NOMBRE-ANNEES.
+           DISPLAY "ENTRER LE NOMBRE D'ANNEES:".
            ACCEPT NOMBRE-D-ANNEES.
            IF NOMBRE-D-ANNEES < 0
               DISPLAY "NOMBRE D'ANNEES INCORRECT. VEUILLEZ REESSAYER."
-              GO TO 210-DEMANDER-NOMBRE-ANNEES
+              *> GO TO INTERNE POUR BOUCLE
+              GO TO 210-DMD-NOMBRE-ANNEES
            END-IF.
       *
-       220-DEMANDER-TAUX-INTERET.
-           DISPLAY "ENTRER LE TAUX D'INTERET ANNUEL".
+       220-DMD-TAUX-INTERET.
+           DISPLAY "ENTRER LE TAUX D'INTERET ANNUEL:".
            ACCEPT TAUX-INTERET.
            IF (TAUX-INTERET < 0 OR TAUX-INTERET > 50)
-              DISPLAY "TAUX D'INTERET ANNUEL INCORRECT."
-                      " VEUILLEZ REESSAYER."
-              GO TO 220-DEMANDER-TAUX-INTERET
+              DISPLAY "TAUX D'INTERET ANNUEL INCORRECT. "
+                       "VEUILLEZ REESSAYER."
+              *> GO TO INTERNE POUR BOUCLE
+              GO TO 220-DMD-TAUX-INTERET
+           END-IF.
+           PERFORM 221-DMD-CONFIRM-TAUX-INTERET.
+      *
+       221-DMD-CONFIRM-TAUX-INTERET.
+           DISPLAY "VOUS AVEZ ENTRÉ " TAUX-INTERET
+                    "% DE TAUX D'INTERET. EST-CE EXACT? (Y/N)".
+           ACCEPT CONFIRM-ENTREE-SWITCH.
+           IF CONFIRM-ENTREE-SWITCH NOT = "Y" OR NOT "N"
+              DISPLAY "ENTREE INCORRECTE. "
+                       "VEUILLEZ REESSAYER."
+              *> GO TO INTERNE POUR BOUCLE
+              GO TO 221-DMD-CONFIRM-TAUX-INTERET
+           ELSE
+              IF CONFIRM-ENTREE-SWITCH = "N"
+                 *> GO TO EXTERNE POUR BOUCLE
+                 GO TO 220-DMD-TAUX-INTERET
            END-IF.
       *
-       230-DEMANDER-TYPE-TAUX-INTERET.
-           DISPLAY "ENTRER LE TYPE DE TAUX D'INTERET".
+       230-DMD-TYPE-TAUX-INTERET.
+           DISPLAY "ENTRER LA "
+                    "FREQUENCE D'APPLICATION DU TAUX D'INTERET:".
            DISPLAY "TYPES POSSIBLE: 'ANNUEL', 'MENSUEL' ET 'QUOTIDIEN".
            ACCEPT TYPE-TAUX-INTERET.
            IF (TYPE-TAUX-INTERET NOT = "ANNUEL"
-              AND TYPE-TAUX-INTERET NOT = "MENSUEL"
-              AND TYPE-TAUX-INTERET NOT = "QUOTIDIEN")
-              DISPLAY "TYPE DE TAUX D'INTERET INCORRECT."
-                      " VEUILLEZ REESSAYER."
-              GO TO 230-DEMANDER-TYPE-TAUX-INTERET
+              AND NOT = "annuel"
+              AND NOT = "MENSUEL"
+              AND NOT = "mensuel"
+              AND NOT = "QUOTIDIEN"
+              AND NOT = "quotidien")
+              DISPLAY "FREQUENCE D'APPLICATION DU TAUX D'INTERET "
+                       "INCORRECT. VEUILLEZ REESSAYER."
+              *> GO TO INTERNE POUR BOUCLE
+              GO TO 230-DMD-TYPE-TAUX-INTERET
            END-IF.
            
