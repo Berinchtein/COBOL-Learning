@@ -28,8 +28,8 @@
        WORKING-STORAGE SECTION.
       *
        01 SWITCHES.
-          05 FIN-DE-SECTION-SWITCH      PIC X          VALUE "N".
           05 CONFIRM-ENTREE-SWITCH      PIC X          VALUE "N".
+          05 FIN-DE-SECTION-SWITCH      PIC X          VALUE "N".
       *
        01 ENTREES-UTILISATEUR.
           05 VALEURS-MONETAIRES.
@@ -42,15 +42,15 @@
        01 VARIABLES-TRAVAIL.
           05 VALEURS-MONETAIRES.
              10 TAUX-INTERET-FORTMATTE  PIC Z9.99.
-             10 VALEUR-FUTURE           PIC 9(7)V99.
-             10 VALEUR-FUTURE-FORMATTEE PIC Z,ZZZ,ZZZ.99.
+             10 VALEUR-FUTURE           PIC 9(9)V99.
+             10 VALEUR-FUTURE-FORMATTEE PIC ZZZ,ZZZ,ZZZ.99.
       *
        PROCEDURE DIVISION.
       *
        000-CALCUL-TOTAL-INTERET.
       *
            PERFORM 100-CALCUL-UN-INTERET
-              UNTIL FIN-DE-SECTION-SWITCH = "Y".
+              UNTIL(FIN-DE-SECTION-SWITCH = "Y").
            DISPLAY "FIN DU PROGRAMME.".
            STOP RUN.
       *
@@ -120,7 +120,7 @@
            IF (CONFIRM-ENTREE-SWITCH NOT = "Y" AND "N")
               DISPLAY "ENTREE INCORRECTE. "
                       "VEUILLEZ REESSAYER."
-                 *> GO TO INTERNE POUR BOUCLE
+              *> GO TO INTERNE POUR BOUCLE
               GO TO 221-DMD-CONFIRM-TAUX-INTERET
            ELSE
               IF CONFIRM-ENTREE-SWITCH = "N"
@@ -137,7 +137,7 @@
               AND "QUOTIDIEN" AND "quotidien")
               DISPLAY "FREQUENCE D'APPLICATION DU TAUX D'INTERET "
                       "INCORRECT. VEUILLEZ REESSAYER."
-                 *> GO TO INTERNE POUR BOUCLE
+              *> GO TO INTERNE POUR BOUCLE
               GO TO 230-DMD-TYPE-TAUX-INTERET
            END-IF.
            
