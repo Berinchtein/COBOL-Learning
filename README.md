@@ -71,7 +71,7 @@ Une démonstration de ce processus est disponible sur ma chaine YouTube: <https:
 ## Ressources principales utilisées
 
 ### Murach’s Mainframe COBOL (Mike Murach)
-Ma ressource que je priorise le plus, ce livre de presque 700 pages semble être considéré comme étrantla "bible" du COBOL mainframe. J'ai donc mis ma main sur une version papier dès que j'ai eu la chance. Elle contient des instructions pour très débutants jusqu'à des explications claires sur comment entretenir un mainframe IBM.
+Ma ressource que je priorise le plus, ce livre de presque 700 pages semble être considéré comme la "bible" du COBOL mainframe. J'ai donc mis ma main sur une version papier dès que j'ai eu la chance. Elle contient des instructions pour très débutants jusqu'à des explications claires sur comment entretenir un mainframe IBM.
 
 ### COBOL Software Modernization (Franck Barbier)
 *Ajouter description*
