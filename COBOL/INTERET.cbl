@@ -13,7 +13,7 @@
        AUTHOR. MANUEL JARRY. 
        INSTALLATION. COBOL DEVELOPMENT CENTER. 
        DATE-WRITTEN. 29/10/2025. 
-       DATE-COMPILED. JJ/MM/AA. 
+       DATE-COMPILED. 30/10/2025. 
        SECURITY. NON-CONFIDENTIAL.
       *****************************************************************
       *
