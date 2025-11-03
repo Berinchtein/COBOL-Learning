@@ -45,9 +45,9 @@
              10 VALEUR-FUTURE           PIC 9(9)V99.
              10 VALEUR-FUTURE-FORMATTEE PIC ZZZ,ZZZ,ZZZ.99.
           05 VALEURS-AUTRES.
-             10 BARRE-SEPARATION        PIC X(46)
+             10 BARRE-SEPARATION        PIC X(50)
                                                        VALUE
-                   "----------------------------------------------".
+                   "--------------------------------------------------".
       *
        PROCEDURE DIVISION.
       *
