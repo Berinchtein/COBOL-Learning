@@ -42,7 +42,7 @@ Soit le répertoire courant **COBOL-Learning**, à l'écriture de cette section:
 ```bash
 ├── COBOL
 │   ├── INTERET.cbl
-│   ├── TAXES.cbl
+│   └── TAXES.cbl
 ├── EXECUTABLE
 ├── README.md
 └── .gitignore
@@ -55,9 +55,9 @@ Ceci créera un fichier exécutable **INTERET-EXEC.exe**. Le répertoire devrait
 ```bash
 ├── COBOL
 │   ├── INTERET.cbl
-│   ├── TAXES.cbl
+│   └── TAXES.cbl
 ├── EXECUTABLE
-│   ├── INTERET-EXEC.exe
+│   └── INTERET-EXEC.exe
 ├── README.md
 └── .gitignore
 ```
