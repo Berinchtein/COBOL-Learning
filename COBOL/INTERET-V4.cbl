@@ -72,20 +72,16 @@
       *
        200-MONTRER-VALEUR-FUTURE.
       *
-           PERFORM 210-DMD-NOMBRE-ANNEES.
-           PERFORM 220-DMD-TAUX-INTERET.
-           PERFORM 230-DMD-TYPE-TAUX-INTERET.
+           PERFORM 220-DMD-NOMBRE-ANNEES.
+           PERFORM 230-DMD-TAUX-INTERET.
+           PERFORM 240-DMD-TYPE-TAUX-INTERET.
            IF (TYPE-TAUX-INTERET = "ANNUEL" OR "annuel")
               COMPUTE VALEUR-FUTURE =
                  VALEUR-ACTUELLE *(1 +
                  TAUX-INTERET / 100) **
                  NOMBRE-D-ANNEES
               ON SIZE ERROR
-                 DISPLAY BARRE-SEPARATION
-                 DISPLAY "MONTANT CALCULE TROP ELEVE. "
-                         "VEUILLEZ RECOMMENCER."
-                 *> GO TO EXTERNE POUR ERREUR FATALE
-                 GO TO 000-CALCUL-TOTAL-INTERET
+                 PERFORM 210-ERREUR-MONTANT-ELEVE
            ELSE
               IF (TYPE-TAUX-INTERET = "MENSUEL" OR "mensuel")
                  COMPUTE VALEUR-FUTURE =
@@ -93,39 +89,39 @@
                     (TAUX-INTERET / 12) / 100) **
                     (NOMBRE-D-ANNEES * 12)
                  ON SIZE ERROR
-                    DISPLAY BARRE-SEPARATION
-                    DISPLAY "MONTANT CALCULE TROP ELEVE. "
-                            "VEUILLEZ RECOMMENCER."
-                    *> GO TO EXTERNE POUR ERREUR FATALE
-                    GO TO 000-CALCUL-TOTAL-INTERET
+                    PERFORM 210-ERREUR-MONTANT-ELEVE
               ELSE
                  COMPUTE VALEUR-FUTURE =
                     VALEUR-ACTUELLE *(1 +
                     (TAUX-INTERET / 365) / 100) **
                     (NOMBRE-D-ANNEES * 365)
                  ON SIZE ERROR
-                    DISPLAY BARRE-SEPARATION
-                    DISPLAY "MONTANT CALCULE TROP ELEVE. "
-                            "VEUILLEZ RECOMMENCER."
-                    *> GO TO EXTERNE POUR ERREUR FATALE
-                    GO TO 000-CALCUL-TOTAL-INTERET
+                    PERFORM 210-ERREUR-MONTANT-ELEVE
               END-IF
            END-IF.
            MOVE VALEUR-FUTURE TO VALEUR-FUTURE-FORMATTEE.
            DISPLAY BARRE-SEPARATION.
            DISPLAY "VALEUR-FUTURE = " VALEUR-FUTURE-FORMATTEE "$".
       *
-       210-DMD-NOMBRE-ANNEES.
+       210-ERREUR-MONTANT-ELEVE.
+      *
+           DISPLAY BARRE-SEPARATION.
+           DISPLAY "MONTANT CALCULE TROP ELEVE. "
+                   "VEUILLEZ RECOMMENCER.".
+           *> GO TO EXTERNE POUR ERREUR FATALE
+           GO TO 000-CALCUL-TOTAL-INTERET.
+      *
+       220-DMD-NOMBRE-ANNEES.
       *
            DISPLAY "ENTRER LE NOMBRE D'ANNEES:".
            ACCEPT NOMBRE-D-ANNEES.
            IF (NOMBRE-D-ANNEES < 0)
               DISPLAY "NOMBRE D'ANNEES INCORRECT. VEUILLEZ REESSAYER."
               *> GO TO INTERNE POUR BOUCLE
-              GO TO 210-DMD-NOMBRE-ANNEES
+              GO TO 220-DMD-NOMBRE-ANNEES
            END-IF.
       *
-       220-DMD-TAUX-INTERET.
+       230-DMD-TAUX-INTERET.
       *
            DISPLAY "ENTRER LE TAUX D'INTERET ANNUEL:".
            ACCEPT TAUX-INTERET.
@@ -133,11 +129,11 @@
               DISPLAY "TAUX D'INTERET ANNUEL INCORRECT. "
                       "VEUILLEZ REESSAYER."
               *> GO TO INTERNE POUR BOUCLE
-              GO TO 220-DMD-TAUX-INTERET
+              GO TO 230-DMD-TAUX-INTERET
            END-IF.
-           PERFORM 221-DMD-CONFIRM-TAUX-INTERET.
+           PERFORM 231-DMD-CONFIRM-TAUX-INTERET.
       *
-       221-DMD-CONFIRM-TAUX-INTERET.
+       231-DMD-CONFIRM-TAUX-INTERET.
       *
            MOVE TAUX-INTERET TO TAUX-INTERET-FORTMATTE.
            DISPLAY "VOUS AVEZ ENTRE "
@@ -148,13 +144,13 @@
               DISPLAY "ENTREE INCORRECTE. "
                       "VEUILLEZ REESSAYER."
               *> GO TO INTERNE POUR BOUCLE
-              GO TO 221-DMD-CONFIRM-TAUX-INTERET
+              GO TO 231-DMD-CONFIRM-TAUX-INTERET
            ELSE
               IF (CONFIRM-ENTREE-SWITCH = "N" OR "n")
-                 PERFORM 220-DMD-TAUX-INTERET
+                 PERFORM 230-DMD-TAUX-INTERET
               END-IF.
       *
-       230-DMD-TYPE-TAUX-INTERET.
+       240-DMD-TYPE-TAUX-INTERET.
       *
            DISPLAY "ENTRER LA FREQUENCE "
                    "D'APPLICATION DU TAUX D'INTERET ANNUEL:".
@@ -166,7 +162,7 @@
               DISPLAY "FREQUENCE D'APPLICATION DU TAUX D'INTERET "
                       "INCORRECT. VEUILLEZ REESSAYER."
               *> GO TO INTERNE POUR BOUCLE
-              GO TO 230-DMD-TYPE-TAUX-INTERET
+              GO TO 240-DMD-TYPE-TAUX-INTERET
            END-IF.
       *
       
