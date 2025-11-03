@@ -44,6 +44,10 @@
              10 TAUX-INTERET-FORTMATTE  PIC Z9.99.
              10 VALEUR-FUTURE           PIC 9(9)V99.
              10 VALEUR-FUTURE-FORMATTEE PIC ZZZ,ZZZ,ZZZ.99.
+          05 VALEURS-AUTRES.
+             10 BARRE-SEPARATION        PIC X(46)
+                                                       VALUE
+                   "----------------------------------------------".
       *
        PROCEDURE DIVISION.
       *
@@ -56,7 +60,7 @@
       *
        100-CALCUL-UN-INTERET.
       *
-           DISPLAY "-------------------------------------------------".
+           DISPLAY BARRE-SEPARATION.
            DISPLAY "POUR TERMINER LE PROGRAMME, ENTRER 0.".
            DISPLAY "ENTRER LE MONTANT DE L'INVESTISSEMENT:".
            ACCEPT VALEUR-ACTUELLE.
@@ -77,6 +81,7 @@
                  TAUX-INTERET / 100) **
                  NOMBRE-D-ANNEES
               ON SIZE ERROR
+                 DISPLAY BARRE-SEPARATION
                  DISPLAY "MONTANT CALCULE TROP ELEVE. "
                          "VEUILLEZ RECOMMENCER."
                  *> GO TO EXTERNE POUR ERREUR FATALE
@@ -88,6 +93,7 @@
                     (TAUX-INTERET / 12) / 100) **
                     (NOMBRE-D-ANNEES * 12)
                  ON SIZE ERROR
+                    DISPLAY BARRE-SEPARATION
                     DISPLAY "MONTANT CALCULE TROP ELEVE. "
                             "VEUILLEZ RECOMMENCER."
                     *> GO TO EXTERNE POUR ERREUR FATALE
@@ -98,6 +104,7 @@
                     (TAUX-INTERET / 365) / 100) **
                     (NOMBRE-D-ANNEES * 365)
                  ON SIZE ERROR
+                    DISPLAY BARRE-SEPARATION
                     DISPLAY "MONTANT CALCULE TROP ELEVE. "
                             "VEUILLEZ RECOMMENCER."
                     *> GO TO EXTERNE POUR ERREUR FATALE
@@ -105,6 +112,7 @@
               END-IF
            END-IF.
            MOVE VALEUR-FUTURE TO VALEUR-FUTURE-FORMATTEE.
+           DISPLAY BARRE-SEPARATION.
            DISPLAY "VALEUR-FUTURE = " VALEUR-FUTURE-FORMATTEE "$".
       *
        210-DMD-NOMBRE-ANNEES.
@@ -161,3 +169,4 @@
               GO TO 230-DMD-TYPE-TAUX-INTERET
            END-IF.
       *
+      
