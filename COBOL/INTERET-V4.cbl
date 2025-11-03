@@ -77,7 +77,7 @@
            PERFORM 240-DMD-TYPE-TAUX-INTERET.
            IF (TYPE-TAUX-INTERET = "ANNUEL" OR "annuel")
               COMPUTE VALEUR-FUTURE =
-                 VALEUR-ACTUELLE *(1 +
+                 VALEUR-ACTUELLE * (1 +
                  TAUX-INTERET / 100) **
                  NOMBRE-D-ANNEES
               ON SIZE ERROR
@@ -85,14 +85,14 @@
            ELSE
               IF (TYPE-TAUX-INTERET = "MENSUEL" OR "mensuel")
                  COMPUTE VALEUR-FUTURE =
-                    VALEUR-ACTUELLE *(1 +
+                    VALEUR-ACTUELLE * (1 +
                     (TAUX-INTERET / 12) / 100) **
                     (NOMBRE-D-ANNEES * 12)
                  ON SIZE ERROR
                     PERFORM 210-ERREUR-MONTANT-ELEVE
               ELSE
                  COMPUTE VALEUR-FUTURE =
-                    VALEUR-ACTUELLE *(1 +
+                    VALEUR-ACTUELLE * (1 +
                     (TAUX-INTERET / 365) / 100) **
                     (NOMBRE-D-ANNEES * 365)
                  ON SIZE ERROR
