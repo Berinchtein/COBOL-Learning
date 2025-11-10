@@ -34,14 +34,24 @@
        WORKING-STORAGE SECTION.
       *
        01 SWITCHES.
-          05 END-OF-SESSION-SWITCH       PIC X          VALUE "N".
-          05 FIRST-SESSION-SWITCH        PIC X          VALUE "Y".
+          05 PROGRAM-SWITCHES.
+             10 END-OF-SESSION-SWITCH    PIC X          VALUE "N".
+             10 FIRST-SESSION-SWITCH     PIC X          VALUE "Y".
+          05 UNIT-SWITCHES.
+             10 DISTANCE-UNIT-SWITCH     PIC X          VALUE "M".
+             10 FUEL-UNIT-SWITCH         PIC X          VALUE "M".
+             10 CONSUMPTION-UNIT-SWITCH  PIC X          VALUE "M".
       *
-      *01 USER-ENTRIES.
+      01 USER-ENTRIES.
+          05 NUMERICAL-FIELDS.
+             10 DISTANCE-VALUE           PIC 9(4).
+             10 FUEL-USED-VALUE          PIC 9(4).
+          05 OTHER-FIELDS.
+             10 PROGRAM-START-VALUE      PIC 9.
       *
        01 WORK-FIELDS.
-      *   05 NUMERICAL-FIELDS.
-      *      10 
+          05 NUMERICAL-FIELDS.
+             10 GAS-CONSUMPTION          PIC 
       *   05 OTHER-FIELDS.
              10 SEPARATOR-LINE           PIC X(50)
                                                         VALUE
@@ -68,16 +78,25 @@
            END-IF.
            DISPLAY SEPARATOR-LINE.
            DISPLAY "TO START PROGRAM, ENTER 0.".
-           ACCEPT VALEUR-ACTUELLE.
-           IF (VALEUR-ACTUELLE = 0)
-              MOVE "Y" TO FIN-DE-SECTION-SWITCH
+           ACCEPT PROGRAM-START-VALUE.
+           IF (PROGRAM-START-VALUE = ZERO)
+              PERFORM 100-SHOW-GAS-CONSUMPTION
            ELSE
-              *>PERFORM XXX-NEXT-ROUTINE
+              MOVE "Y" TO END-OF-SESSION-SWITCH
            END-IF.
       *
        000-EXIT.
            EXIT.
       *
       ******************************************************************
-      *  This routine [???]
+      *  This routine calculates the gas consumption
       ******************************************************************
+       100-SHOW-GAS-CONSUMPTION.
+      *
+           PERFORM 110-ASK-DISTANCE.
+
+      *
+      ******************************************************************
+      *  This routine asks the user for the travelled distance
+      ******************************************************************
+           

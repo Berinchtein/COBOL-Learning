@@ -165,4 +165,3 @@
               GO TO 240-DMD-TYPE-TAUX-INTERET
            END-IF.
       *
-      
