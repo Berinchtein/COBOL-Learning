@@ -55,7 +55,11 @@
       *
            PERFORM 100-CALCUL-UN-INTERET
               UNTIL(FIN-DE-SECTION-SWITCH = "Y").
+           DISPLAY BARRE-SEPARATION.
            DISPLAY "FIN DU PROGRAMME.".
+           DISPLAY "MERCI D'AVOIR UTILISE LE PROGRAMME D'INTERET "
+                   "DE MANU!".
+           DISPLAY BARRE-SEPARATION.
            STOP RUN.
       *
        100-CALCUL-UN-INTERET.
