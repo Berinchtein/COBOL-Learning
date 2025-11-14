@@ -5,15 +5,15 @@
       * Journal d'entretien
       * Date       Auteur        Exigence de maintenance
       * ---------- ------------  -------------------------------------- 
-      * 03/11/2025 MANUEL JARRY  Créé pour classe COBOL
+      * 03/11/2025 MANUEL JARRY  Créé pour COBOL-Learning
       *
       *****************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID.  INTR0004.
        AUTHOR. MANUEL JARRY. 
-       INSTALLATION. COBOL DEVELOPMENT CENTER. 
+       INSTALLATION. COBOL-Learning.
        DATE-WRITTEN. 03/11/2025. 
-       DATE-COMPILED. 03/11/2025. 
+       DATE-COMPILED. 13/11/2025. 
        SECURITY. NON-CONFIDENTIAL.
       *****************************************************************
       *
@@ -108,7 +108,7 @@
            DISPLAY BARRE-SEPARATION.
            DISPLAY "MONTANT CALCULE TROP ELEVE. "
                    "VEUILLEZ RECOMMENCER.".
-           *> GO TO EXTERNE POUR ERREUR FATALE
+           *> GO TO EXTERNE POUR ERREUR FATALE (BAD PRACTICE, A CHANGER)
            GO TO 000-CALCUL-TOTAL-INTERET.
       *
        220-DMD-NOMBRE-ANNEES.
@@ -117,7 +117,7 @@
            ACCEPT NOMBRE-D-ANNEES.
            IF (NOMBRE-D-ANNEES < 0)
               DISPLAY "NOMBRE D'ANNEES INCORRECT. VEUILLEZ REESSAYER."
-              *> GO TO INTERNE POUR BOUCLE
+              *> GO TO INTERNE POUR BOUCLE (BAD PRACTICE, A CHANGER)
               GO TO 220-DMD-NOMBRE-ANNEES
            END-IF.
       *
@@ -128,7 +128,7 @@
            IF (TAUX-INTERET < 0 OR > 50)
               DISPLAY "TAUX D'INTERET ANNUEL INCORRECT. "
                       "VEUILLEZ REESSAYER."
-              *> GO TO INTERNE POUR BOUCLE
+              *> GO TO INTERNE POUR BOUCLE (BAD PRACTICE, A CHANGER)
               GO TO 230-DMD-TAUX-INTERET
            END-IF.
            PERFORM 231-DMD-CONFIRM-TAUX-INTERET.
@@ -143,7 +143,7 @@
            IF (CONFIRM-ENTREE-SWITCH NOT = "Y" AND "y" AND "N" AND "n")
               DISPLAY "ENTREE INCORRECTE. "
                       "VEUILLEZ REESSAYER."
-              *> GO TO INTERNE POUR BOUCLE
+              *> GO TO INTERNE POUR BOUCLE (BAD PRACTICE, A CHANGER)
               GO TO 231-DMD-CONFIRM-TAUX-INTERET
            ELSE
               IF (CONFIRM-ENTREE-SWITCH = "N" OR "n")
@@ -161,7 +161,7 @@
               AND "QUOTIDIEN" AND "quotidien")
               DISPLAY "FREQUENCE D'APPLICATION DU TAUX D'INTERET "
                       "INCORRECT. VEUILLEZ REESSAYER."
-              *> GO TO INTERNE POUR BOUCLE
+              *> GO TO INTERNE POUR BOUCLE (BAD PRACTICE, A CHANGER)
               GO TO 240-DMD-TYPE-TAUX-INTERET
            END-IF.
       *
