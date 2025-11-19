@@ -95,8 +95,6 @@
            ELSE
               MOVE VALEUR-ACTUELLE TO VALEUR-ENTREE-FORMATTEE
               PERFORM 110-DMD-CONFIRMATION-VALEUR
-                 WITH TEST AFTER
-                 UNTIL(CORRECT-CONFIRM-ENTREE-SWITCH)
               PERFORM 200-DMD-NOMBRE-ANNEES
                  WITH TEST AFTER
                  UNTIL(CORRECT-NOMBRE-ANNEES AND CONFIRM-ENTREE)
@@ -114,13 +112,17 @@
       ******************************************************************
        110-DMD-CONFIRMATION-VALEUR.
       *
-           DISPLAY "VOUS AVEZ ENTRE " VALEUR-ENTREE-FORMATTEE
-           DISPLAY "EST-CE EXACT? (Y/N):".
-           ACCEPT CONFIRM-ENTREE-SWITCH.
-           IF (NOT CORRECT-CONFIRM-ENTREE-SWITCH)
-              DISPLAY "ENTREE INCORRECTE. "
-                      "VEUILLEZ REESSAYER."
-           END-IF.
+           PERFORM
+              WITH TEST AFTER
+              UNTIL(CORRECT-CONFIRM-ENTREE-SWITCH)
+                   DISPLAY "VOUS AVEZ ENTRE " VALEUR-ENTREE-FORMATTEE
+                   DISPLAY "EST-CE EXACT? (Y/N):"
+                   ACCEPT CONFIRM-ENTREE-SWITCH
+                   IF (NOT CORRECT-CONFIRM-ENTREE-SWITCH)
+                      DISPLAY "ENTREE INCORRECTE. "
+                              "VEUILLEZ REESSAYER."
+                   END-IF
+           END-PERFORM.
       *
       ******************************************************************
       *  Cette procédure demande le nombre d'années à l'utilisateur
@@ -130,9 +132,7 @@
            DISPLAY "ENTRER LE NOMBRE D'ANNEES:".
            ACCEPT NOMBRE-ANNEES.
            MOVE NOMBRE-ANNEES TO VALEUR-ENTREE-FORMATTEE.
-           PERFORM 110-DMD-CONFIRMATION-VALEUR
-              WITH TEST AFTER
-              UNTIL(CORRECT-CONFIRM-ENTREE-SWITCH).
+           PERFORM 110-DMD-CONFIRMATION-VALEUR.
            IF (NOT CORRECT-NOMBRE-ANNEES)
               DISPLAY "NOMBRE D'ANNEES INCORRECT. VEUILLEZ REESSAYER."
            END-IF.
@@ -145,9 +145,7 @@
            DISPLAY "ENTRER LE TAUX D'INTERET ANNUEL:".
            ACCEPT TAUX-INTERET.
            MOVE TAUX-INTERET TO VALEUR-ENTREE-FORMATTEE.
-           PERFORM 110-DMD-CONFIRMATION-VALEUR
-              WITH TEST AFTER
-              UNTIL(CORRECT-CONFIRM-ENTREE-SWITCH).
+           PERFORM 110-DMD-CONFIRMATION-VALEUR.
            IF (NOT CORRECT-TAUX-INTERET)
               DISPLAY "TAUX D'INTERET ANNUEL INCORRECT. "
                       "VEUILLEZ REESSAYER."
