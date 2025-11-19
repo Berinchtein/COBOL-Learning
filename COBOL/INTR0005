@@ -54,6 +54,12 @@
                       "ANNUEL" "annuel"
                       "MENSUEL" "mensuel"
                       "QUOTIDIEN" "quotidien".
+                88 TYPE-TAUX-INTERET-ANNUEL            VALUE
+                      "ANNUEL" "annuel".
+                88 TYPE-TAUX-INTERET-MENSUEL           VALUE
+                      "MENSUEL" "mensuel".
+                88 TYPE-TAUX-INTERET-QUOTIDIEN         VALUE
+                      "QUOTIDIEN" "quotidien".
       *
        01 VARIABLES-TRAVAIL.
           05 VALEURS-MONETAIRES.
@@ -179,33 +185,32 @@
       ******************************************************************
        700-MONTRER-VALEUR-FUTURE.
       *
-           IF (TYPE-TAUX-INTERET = "ANNUEL" OR "annuel")
-              COMPUTE VALEUR-FUTURE =
-                 VALEUR-ACTUELLE *(1 +
-                 TAUX-INTERET / 100) **
-                 NOMBRE-ANNEES
-              ON SIZE ERROR
-                 PERFORM 710-ERREUR-MONTANT-ELEVE
-              END-COMPUTE
-           ELSE
-              IF (TYPE-TAUX-INTERET = "MENSUEL" OR "mensuel")
-                 COMPUTE VALEUR-FUTURE =
-                    VALEUR-ACTUELLE *(1 +
-                    (TAUX-INTERET / 12) / 100) **
-                    (NOMBRE-ANNEES * 12)
-                 ON SIZE ERROR
-                    PERFORM 710-ERREUR-MONTANT-ELEVE
-                 END-COMPUTE
-              ELSE
-                 COMPUTE VALEUR-FUTURE =
-                    VALEUR-ACTUELLE *(1 +
-                    (TAUX-INTERET / 365) / 100) **
-                    (NOMBRE-ANNEES * 365)
-                 ON SIZE ERROR
-                    PERFORM 710-ERREUR-MONTANT-ELEVE
-                 END-COMPUTE
-              END-IF
-           END-IF.
+           EVALUATE TRUE
+           WHEN TYPE-TAUX-INTERET-ANNUEL 
+                COMPUTE VALEUR-FUTURE =
+                   VALEUR-ACTUELLE *(1 +
+                   TAUX-INTERET / 100) **
+                   NOMBRE-ANNEES
+                ON SIZE ERROR
+                   PERFORM 710-ERREUR-MONTANT-ELEVE
+                END-COMPUTE
+           WHEN TYPE-TAUX-INTERET-MENSUEL
+                COMPUTE VALEUR-FUTURE =
+                   VALEUR-ACTUELLE *(1 +
+                   (TAUX-INTERET / 12) / 100) **
+                   (NOMBRE-ANNEES * 12)
+                ON SIZE ERROR
+                   PERFORM 710-ERREUR-MONTANT-ELEVE
+                END-COMPUTE
+           WHEN TYPE-TAUX-INTERET-QUOTIDIEN 
+                COMPUTE VALEUR-FUTURE =
+                   VALEUR-ACTUELLE *(1 +
+                   (TAUX-INTERET / 365) / 100) **
+                   (NOMBRE-ANNEES * 365)
+                ON SIZE ERROR
+                   PERFORM 710-ERREUR-MONTANT-ELEVE
+                END-COMPUTE
+           END-EVALUATE.
            MOVE VALEUR-FUTURE TO VALEUR-FUTURE-FORMATTEE.
            DISPLAY BARRE-SEPARATION.
            DISPLAY "VALEUR-FUTURE = " VALEUR-FUTURE-FORMATTEE "$".
