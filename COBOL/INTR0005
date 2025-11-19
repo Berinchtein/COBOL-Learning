@@ -225,3 +225,4 @@
                    "VEUILLEZ RECOMMENCER.".
            PERFORM 000-CALCUL-TOTAL-INTERET.
       *
+      
