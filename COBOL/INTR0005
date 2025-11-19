@@ -179,6 +179,7 @@
                  NOMBRE-ANNEES
               ON SIZE ERROR
                  PERFORM 710-ERREUR-MONTANT-ELEVE
+              END-COMPUTE
            ELSE
               IF (TYPE-TAUX-INTERET = "MENSUEL" OR "mensuel")
                  COMPUTE VALEUR-FUTURE =
@@ -187,6 +188,7 @@
                     (NOMBRE-ANNEES * 12)
                  ON SIZE ERROR
                     PERFORM 710-ERREUR-MONTANT-ELEVE
+                 END-COMPUTE
               ELSE
                  COMPUTE VALEUR-FUTURE =
                     VALEUR-ACTUELLE *(1 +
@@ -194,6 +196,7 @@
                     (NOMBRE-ANNEES * 365)
                  ON SIZE ERROR
                     PERFORM 710-ERREUR-MONTANT-ELEVE
+                 END-COMPUTE
               END-IF
            END-IF.
            MOVE VALEUR-FUTURE TO VALEUR-FUTURE-FORMATTEE.
@@ -210,3 +213,4 @@
                    "VEUILLEZ RECOMMENCER.".
            PERFORM 000-CALCUL-TOTAL-INTERET. *> Pas sûr
       *
+      
