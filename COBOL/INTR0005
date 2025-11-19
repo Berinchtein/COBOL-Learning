@@ -130,7 +130,7 @@
                    ACCEPT NOMBRE-ANNEES
                    MOVE NOMBRE-ANNEES TO VALEUR-ENTREE-FORMATTEE
                    PERFORM 110-DMD-CONFIRMATION-VALEUR
-                   IF (NOT CORRECT-NOMBRE-ANNEES)
+                   IF (NOT CORRECT-NOMBRE-ANNEES AND CONFIRM-ENTREE)
                       DISPLAY "NOMBRE D'ANNEES INCORRECT. "
                               "VEUILLEZ REESSAYER."
                    END-IF
@@ -148,7 +148,7 @@
                    ACCEPT TAUX-INTERET
                    MOVE TAUX-INTERET TO VALEUR-ENTREE-FORMATTEE
                    PERFORM 110-DMD-CONFIRMATION-VALEUR
-                   IF (NOT CORRECT-TAUX-INTERET)
+                   IF (NOT CORRECT-TAUX-INTERET AND CONFIRM-ENTREE)
                       DISPLAY "TAUX D'INTERET ANNUEL INCORRECT. "
                               "VEUILLEZ REESSAYER."
                    END-IF
@@ -167,7 +167,7 @@
                    DISPLAY "TYPES POSSIBLE: 'ANNUEL', "
                            "'MENSUEL' ET 'QUOTIDIEN'"
                    ACCEPT TYPE-TAUX-INTERET
-                   IF (NOT CORRECT-TYPE-TAUX-INTERET)
+                   IF (NOT CORRECT-TYPE-TAUX-INTERET AND CONFIRM-ENTREE)
                       DISPLAY
                          "FREQUENCE D'APPLICATION DU TAUX D'INTERET "
                          "INCORRECT. VEUILLEZ REESSAYER."
@@ -220,3 +220,4 @@
                    "VEUILLEZ RECOMMENCER.".
            PERFORM 000-CALCUL-TOTAL-INTERET. *> Pas sûr
       *
+      
