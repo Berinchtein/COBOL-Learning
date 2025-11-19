@@ -81,6 +81,9 @@
            DISPLAY BARRE-SEPARATION.
            STOP RUN.
       *
+      ******************************************************************
+      *  Cette procédure exécute une itération de demandes et calcul
+      ******************************************************************
        100-CALCUL-UN-INTERET.
       *
            DISPLAY BARRE-SEPARATION.
@@ -91,7 +94,7 @@
               MOVE "Y" TO FIN-DE-SECTION-SWITCH
            ELSE
               MOVE VALEUR-ACTUELLE TO VALEUR-ENTREE-FORMATTEE
-              PERFORM 210-DMD-CONFIRMATION-VALEUR
+              PERFORM 110-DMD-CONFIRMATION-VALEUR
                  WITH TEST AFTER
                  UNTIL(CONFIRM-ENTREE)
               PERFORM 200-DMD-NOMBRE-ANNEES
@@ -106,19 +109,10 @@
               PERFORM 700-MONTRER-VALEUR-FUTURE
            END-IF.
       *
-       200-DMD-NOMBRE-ANNEES.
-      *
-           DISPLAY "ENTRER LE NOMBRE D'ANNEES:".
-           ACCEPT NOMBRE-ANNEES.
-           MOVE NOMBRE-ANNEES TO VALEUR-ENTREE-FORMATTEE.
-           PERFORM 210-DMD-CONFIRMATION-VALEUR
-              WITH TEST AFTER
-              UNTIL(CORRECT-CONFIRM-ENTREE-SWITCH).
-           IF (NOT CONFIRM-ENTREE)
-              DISPLAY "NOMBRE D'ANNEES INCORRECT. VEUILLEZ REESSAYER."
-           END-IF.
-      *
-       210-DMD-CONFIRMATION-VALEUR.
+      ******************************************************************
+      *  Cette procédure confirme une valeur entrée avec l'utilisateur
+      ******************************************************************
+       110-DMD-CONFIRMATION-VALEUR.
       *
            DISPLAY "VOUS AVEZ ENTRE " VALEUR-ENTREE-FORMATTEE
            DISPLAY "EST-CE EXACT? (Y/N):".
@@ -128,12 +122,30 @@
                       "VEUILLEZ REESSAYER."
            END-IF.
       *
+      ******************************************************************
+      *  Cette procédure demande le nombre d'années à l'utilisateur
+      ******************************************************************
+       200-DMD-NOMBRE-ANNEES.
+      *
+           DISPLAY "ENTRER LE NOMBRE D'ANNEES:".
+           ACCEPT NOMBRE-ANNEES.
+           MOVE NOMBRE-ANNEES TO VALEUR-ENTREE-FORMATTEE.
+           PERFORM 110-DMD-CONFIRMATION-VALEUR
+              WITH TEST AFTER
+              UNTIL(CORRECT-CONFIRM-ENTREE-SWITCH).
+           IF (NOT CONFIRM-ENTREE)
+              DISPLAY "NOMBRE D'ANNEES INCORRECT. VEUILLEZ REESSAYER."
+           END-IF.
+      *
+      ******************************************************************
+      *  Cette procédure demande le taux d'intérêt à l'utilisateur
+      ******************************************************************
        300-DMD-TAUX-INTERET.
       *
            DISPLAY "ENTRER LE TAUX D'INTERET ANNUEL:".
            ACCEPT TAUX-INTERET.
            MOVE TAUX-INTERET TO VALEUR-ENTREE-FORMATTEE.
-           PERFORM 210-DMD-CONFIRMATION-VALEUR
+           PERFORM 110-DMD-CONFIRMATION-VALEUR
               WITH TEST AFTER
               UNTIL(CONFIRM-ENTREE).
            IF (NOT CORRECT-TAUX-INTERET)
@@ -141,6 +153,9 @@
                       "VEUILLEZ REESSAYER."
            END-IF.
       *
+      ******************************************************************
+      *  Cette procédure demande le type de taux d'intérêt à l'util...
+      ******************************************************************
        400-DMD-TYPE-TAUX-INTERET.
       *
            DISPLAY "ENTRER LA FREQUENCE "
@@ -152,6 +167,9 @@
                       "INCORRECT. VEUILLEZ REESSAYER."
            END-IF.
       *
+      ******************************************************************
+      *  Cette procédure calcule la valeur future et la montre
+      ******************************************************************
        700-MONTRER-VALEUR-FUTURE.
       *
            IF (TYPE-TAUX-INTERET = "ANNUEL" OR "annuel")
@@ -182,6 +200,9 @@
            DISPLAY BARRE-SEPARATION.
            DISPLAY "VALEUR-FUTURE = " VALEUR-FUTURE-FORMATTEE "$".
       *
+      ******************************************************************
+      *  Cette procédure recommence le programme en cas d'erreur ON SIZE
+      ******************************************************************
        710-ERREUR-MONTANT-ELEVE.
       *
            DISPLAY BARRE-SEPARATION.
