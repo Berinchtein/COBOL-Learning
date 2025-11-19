@@ -1,3 +1,4 @@
 {
-    "synthwave84.brightness": 0.25
+    "synthwave84.brightness": 0.25,
+    "C_Cpp.errorSquiggles": "enabled"
 }

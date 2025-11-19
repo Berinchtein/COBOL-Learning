@@ -1,0 +1,201 @@
+      *****************************************************************
+      * Nom du programme:    INTR0005
+      * Auteur original: MANUEL JARRY
+      *
+      * Journal d'entretien
+      * Date       Auteur        Exigence de maintenance
+      * ---------- ------------  --------------------------------------
+      * 15/11/2025 MANUEL JARRY  Créé pour COBOL-Learning
+      *
+      *****************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.  INTR0005.
+       AUTHOR. MANUEL JARRY Z85614.
+       INSTALLATION. IBM Z Xplore.
+       DATE-WRITTEN. 15/11/2025.
+       DATE-COMPILED. JJ/11/2025.
+       SECURITY. NON-CONFIDENTIAL.
+      *****************************************************************
+      *
+      *****************************************************************
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+       SOURCE-COMPUTER. IBM-Z.
+       OBJECT-COMPUTER. IBM-Z.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           *> report SELECT INFILE ASSIGN  TO INFILEDD.
+           *> report SELECT OUTFILE ASSIGN TO OUTFILEDD.
+      *****************************************************************
+      *
+      *****************************************************************
+       DATA DIVISION.
+       FILE SECTION.
+       *> report FD  File1
+            *> report LABEL RECORDS ARE STANDARD
+            *> report DATA RECORD IS RecName
+            *> report RECORD CONTAINS RecordLength CHARACTERS
+            *> report RECORDING MODE IS F
+            *> report BLOCK CONTAINS 0 RECORDS.
+       *> report 01  Rec1    PIC X(RecordLength).
+      *****************************************************************
+       WORKING-STORAGE SECTION.
+      *
+       01 SWITCHES.
+          05 CONFIRM-ENTREE-SWITCH      PIC X          VALUE "N".
+             88 CORRECT-CONFIRM-ENTREE-SWITCH          VALUE
+                   "Y" "N"
+                   "y" "n".
+             88 CONFIRM-ENTREE                         VALUE "Y" "y".
+          05 FIN-DE-SECTION-SWITCH      PIC X          VALUE "N".
+             88 FIN-DE-SESSION                         VALUE "Y".
+      *
+       01 ENTREES-UTILISATEUR.
+          05 VALEURS-MONETAIRES.
+             10 VALEUR-ACTUELLE         PIC 9(7)V99.
+          05 VALEURS-AUTRES.
+             10 VALEUR-ENTREE-FORMATTEE PIC ZZZ,ZZZ,ZZZ.99.
+             10 TAUX-INTERET            PIC 9(2)V99.
+                88 CORRECT-TAUX-INTERET                VALUE 0 THRU 50.
+             10 NOMBRE-ANNEES           PIC 9(2).
+                88 CORRECT-NOMBRE-ANNEES               VALUE 1 THRU 500.
+             10 TYPE-TAUX-INTERET       PIC X(9).
+                88 CORRECT-TYPE-TAUX-INTERET           VALUE
+                      "ANNUEL" "annuel"
+                      "MENSUEL" "mensuel"
+                      "QUOTIDIEN" "quotidien".
+      *
+       01 VARIABLES-TRAVAIL.
+          05 VALEURS-MONETAIRES.
+             10 VALEUR-FUTURE           PIC 9(9)V99.
+             10 VALEUR-FUTURE-FORMATTEE PIC ZZZ,ZZZ,ZZZ.99.
+          05 VALEURS-AUTRES.
+             10 BARRE-SEPARATION        PIC X(50)
+                                                       VALUE
+                   "--------------------------------------------------".
+      *****************************************************************
+      *
+      ******************************************************************
+       PROCEDURE DIVISION.
+      ******************************************************************
+      *  Cette procédure gère l'exécution globale du programme
+      ******************************************************************
+       000-CALCUL-TOTAL-INTERET.
+      *
+           PERFORM 100-CALCUL-UN-INTERET
+              UNTIL(FIN-DE-SESSION).
+           DISPLAY BARRE-SEPARATION.
+           DISPLAY "FIN DU PROGRAMME.".
+           DISPLAY "MERCI D'AVOIR UTILISE LE PROGRAMME DE CALCUL "
+                   "D'INTERET DE MANU!".
+           DISPLAY BARRE-SEPARATION.
+           STOP RUN.
+      *
+       100-CALCUL-UN-INTERET.
+      *
+           DISPLAY BARRE-SEPARATION.
+           DISPLAY "POUR TERMINER LE PROGRAMME, ENTRER 0.".
+           DISPLAY "ENTRER LE MONTANT DE L'INVESTISSEMENT:".
+           ACCEPT VALEUR-ACTUELLE.
+           IF (VALEUR-ACTUELLE = 0)
+              MOVE "Y" TO FIN-DE-SECTION-SWITCH
+           ELSE
+              MOVE VALEUR-ACTUELLE TO VALEUR-ENTREE-FORMATTEE
+              PERFORM 210-DMD-CONFIRMATION-VALEUR
+                 WITH TEST AFTER
+                 UNTIL(CONFIRM-ENTREE)
+              PERFORM 200-DMD-NOMBRE-ANNEES
+                 WITH TEST AFTER
+                 UNTIL(CORRECT-NOMBRE-ANNEES)
+              PERFORM 300-DMD-TAUX-INTERET
+                 WITH TEST AFTER
+                 UNTIL(CORRECT-TAUX-INTERET)
+              PERFORM 400-DMD-TYPE-TAUX-INTERET
+                 WITH TEST AFTER
+                 UNTIL(CORRECT-TYPE-TAUX-INTERET)
+              PERFORM 700-MONTRER-VALEUR-FUTURE
+           END-IF.
+      *
+       200-DMD-NOMBRE-ANNEES.
+      *
+           DISPLAY "ENTRER LE NOMBRE D'ANNEES:".
+           ACCEPT NOMBRE-ANNEES.
+           MOVE NOMBRE-ANNEES TO VALEUR-ENTREE-FORMATTEE.
+           PERFORM 210-DMD-CONFIRMATION-VALEUR
+              WITH TEST AFTER
+              UNTIL(CORRECT-CONFIRM-ENTREE-SWITCH).
+           IF (NOT CONFIRM-ENTREE)
+              DISPLAY "NOMBRE D'ANNEES INCORRECT. VEUILLEZ REESSAYER."
+           END-IF.
+      *
+       210-DMD-CONFIRMATION-VALEUR.
+      *
+           DISPLAY "VOUS AVEZ ENTRE " VALEUR-ENTREE-FORMATTEE
+           DISPLAY "EST-CE EXACT? (Y/N):".
+           ACCEPT CONFIRM-ENTREE-SWITCH.
+           IF (NOT CORRECT-CONFIRM-ENTREE-SWITCH)
+              DISPLAY "ENTREE INCORRECTE. "
+                      "VEUILLEZ REESSAYER."
+           END-IF.
+      *
+       300-DMD-TAUX-INTERET.
+      *
+           DISPLAY "ENTRER LE TAUX D'INTERET ANNUEL:".
+           ACCEPT TAUX-INTERET.
+           MOVE TAUX-INTERET TO VALEUR-ENTREE-FORMATTEE.
+           PERFORM 210-DMD-CONFIRMATION-VALEUR
+              WITH TEST AFTER
+              UNTIL(CONFIRM-ENTREE).
+           IF (NOT CORRECT-TAUX-INTERET)
+              DISPLAY "TAUX D'INTERET ANNUEL INCORRECT. "
+                      "VEUILLEZ REESSAYER."
+           END-IF.
+      *
+       400-DMD-TYPE-TAUX-INTERET.
+      *
+           DISPLAY "ENTRER LA FREQUENCE "
+                   "D'APPLICATION DU TAUX D'INTERET ANNUEL:".
+           DISPLAY "TYPES POSSIBLE: 'ANNUEL', 'MENSUEL' ET 'QUOTIDIEN'".
+           ACCEPT TYPE-TAUX-INTERET.
+           IF (NOT CORRECT-TAUX-INTERET)
+              DISPLAY "FREQUENCE D'APPLICATION DU TAUX D'INTERET "
+                      "INCORRECT. VEUILLEZ REESSAYER."
+           END-IF.
+      *
+       700-MONTRER-VALEUR-FUTURE.
+      *
+           IF (TYPE-TAUX-INTERET = "ANNUEL" OR "annuel")
+              COMPUTE VALEUR-FUTURE =
+                 VALEUR-ACTUELLE *(1 +
+                 TAUX-INTERET / 100) **
+                 NOMBRE-ANNEES
+              ON SIZE ERROR
+                 PERFORM 710-ERREUR-MONTANT-ELEVE
+           ELSE
+              IF (TYPE-TAUX-INTERET = "MENSUEL" OR "mensuel")
+                 COMPUTE VALEUR-FUTURE =
+                    VALEUR-ACTUELLE *(1 +
+                    (TAUX-INTERET / 12) / 100) **
+                    (NOMBRE-ANNEES * 12)
+                 ON SIZE ERROR
+                    PERFORM 710-ERREUR-MONTANT-ELEVE
+              ELSE
+                 COMPUTE VALEUR-FUTURE =
+                    VALEUR-ACTUELLE *(1 +
+                    (TAUX-INTERET / 365) / 100) **
+                    (NOMBRE-ANNEES * 365)
+                 ON SIZE ERROR
+                    PERFORM 710-ERREUR-MONTANT-ELEVE
+              END-IF
+           END-IF.
+           MOVE VALEUR-FUTURE TO VALEUR-FUTURE-FORMATTEE.
+           DISPLAY BARRE-SEPARATION.
+           DISPLAY "VALEUR-FUTURE = " VALEUR-FUTURE-FORMATTEE "$".
+      *
+       710-ERREUR-MONTANT-ELEVE.
+      *
+           DISPLAY BARRE-SEPARATION.
+           DISPLAY "MONTANT CALCULE TROP ELEVE. "
+                   "VEUILLEZ RECOMMENCER.".
+           PERFORM 000-CALCUL-TOTAL-INTERET. *> Pas sûr
+      *
