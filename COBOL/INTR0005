@@ -42,12 +42,12 @@
       *
        01 ENTREES-UTILISATEUR.
           05 VALEURS-MONETAIRES.
-             10 VALEUR-ACTUELLE         PIC 9(7)V99.
+             10 VALEUR-ACTUELLE         PIC 9(9)V99.
           05 VALEURS-AUTRES.
              10 VALEUR-ENTREE-FORMATTEE PIC ZZZ,ZZZ,ZZZ.99.
              10 TAUX-INTERET            PIC 9(2)V99.
                 88 CORRECT-TAUX-INTERET                VALUE 0 THRU 50.
-             10 NOMBRE-ANNEES           PIC 9(2).
+             10 NOMBRE-ANNEES           PIC 9(3).
                 88 CORRECT-NOMBRE-ANNEES               VALUE 1 THRU 500.
              10 TYPE-TAUX-INTERET       PIC X(9).
                 88 CORRECT-TYPE-TAUX-INTERET           VALUE
@@ -96,14 +96,8 @@
               MOVE VALEUR-ACTUELLE TO VALEUR-ENTREE-FORMATTEE
               PERFORM 110-DMD-CONFIRMATION-VALEUR
               PERFORM 200-DMD-NOMBRE-ANNEES
-                 WITH TEST AFTER
-                 UNTIL(CORRECT-NOMBRE-ANNEES AND CONFIRM-ENTREE)
               PERFORM 300-DMD-TAUX-INTERET
-                 WITH TEST AFTER
-                 UNTIL(CORRECT-TAUX-INTERET AND CONFIRM-ENTREE)
               PERFORM 400-DMD-TYPE-TAUX-INTERET
-                 WITH TEST AFTER
-                 UNTIL(CORRECT-TYPE-TAUX-INTERET AND CONFIRM-ENTREE)
               PERFORM 700-MONTRER-VALEUR-FUTURE
            END-IF.
       *
@@ -129,41 +123,56 @@
       ******************************************************************
        200-DMD-NOMBRE-ANNEES.
       *
-           DISPLAY "ENTRER LE NOMBRE D'ANNEES:".
-           ACCEPT NOMBRE-ANNEES.
-           MOVE NOMBRE-ANNEES TO VALEUR-ENTREE-FORMATTEE.
-           PERFORM 110-DMD-CONFIRMATION-VALEUR.
-           IF (NOT CORRECT-NOMBRE-ANNEES)
-              DISPLAY "NOMBRE D'ANNEES INCORRECT. VEUILLEZ REESSAYER."
-           END-IF.
+           PERFORM
+              WITH TEST AFTER
+              UNTIL(CORRECT-NOMBRE-ANNEES AND CONFIRM-ENTREE)
+                   DISPLAY "ENTRER LE NOMBRE D'ANNEES:"
+                   ACCEPT NOMBRE-ANNEES
+                   MOVE NOMBRE-ANNEES TO VALEUR-ENTREE-FORMATTEE
+                   PERFORM 110-DMD-CONFIRMATION-VALEUR
+                   IF (NOT CORRECT-NOMBRE-ANNEES)
+                      DISPLAY "NOMBRE D'ANNEES INCORRECT. "
+                              "VEUILLEZ REESSAYER."
+                   END-IF
+           END-PERFORM.
       *
       ******************************************************************
       *  Cette procédure demande le taux d'intérêt à l'utilisateur
       ******************************************************************
        300-DMD-TAUX-INTERET.
       *
-           DISPLAY "ENTRER LE TAUX D'INTERET ANNUEL:".
-           ACCEPT TAUX-INTERET.
-           MOVE TAUX-INTERET TO VALEUR-ENTREE-FORMATTEE.
-           PERFORM 110-DMD-CONFIRMATION-VALEUR.
-           IF (NOT CORRECT-TAUX-INTERET)
-              DISPLAY "TAUX D'INTERET ANNUEL INCORRECT. "
-                      "VEUILLEZ REESSAYER."
-           END-IF.
+           PERFORM
+              WITH TEST AFTER
+              UNTIL(CORRECT-TAUX-INTERET AND CONFIRM-ENTREE)
+                   DISPLAY "ENTRER LE TAUX D'INTERET ANNUEL:"
+                   ACCEPT TAUX-INTERET
+                   MOVE TAUX-INTERET TO VALEUR-ENTREE-FORMATTEE
+                   PERFORM 110-DMD-CONFIRMATION-VALEUR
+                   IF (NOT CORRECT-TAUX-INTERET)
+                      DISPLAY "TAUX D'INTERET ANNUEL INCORRECT. "
+                              "VEUILLEZ REESSAYER."
+                   END-IF
+           END-PERFORM.
       *
       ******************************************************************
       *  Cette procédure demande le type de taux d'intérêt à l'util...
       ******************************************************************
        400-DMD-TYPE-TAUX-INTERET.
       *
-           DISPLAY "ENTRER LA FREQUENCE "
-                   "D'APPLICATION DU TAUX D'INTERET ANNUEL:".
-           DISPLAY "TYPES POSSIBLE: 'ANNUEL', 'MENSUEL' ET 'QUOTIDIEN'".
-           ACCEPT TYPE-TAUX-INTERET.
-           IF (NOT CORRECT-TYPE-TAUX-INTERET)
-              DISPLAY "FREQUENCE D'APPLICATION DU TAUX D'INTERET "
-                      "INCORRECT. VEUILLEZ REESSAYER."
-           END-IF.
+           PERFORM
+              WITH TEST AFTER
+              UNTIL(CORRECT-TYPE-TAUX-INTERET AND CONFIRM-ENTREE)
+                   DISPLAY "ENTRER LA FREQUENCE "
+                           "D'APPLICATION DU TAUX D'INTERET ANNUEL:"
+                   DISPLAY "TYPES POSSIBLE: 'ANNUEL', "
+                           "'MENSUEL' ET 'QUOTIDIEN'"
+                   ACCEPT TYPE-TAUX-INTERET
+                   IF (NOT CORRECT-TYPE-TAUX-INTERET)
+                      DISPLAY
+                         "FREQUENCE D'APPLICATION DU TAUX D'INTERET "
+                         "INCORRECT. VEUILLEZ REESSAYER."
+                   END-IF
+           END-PERFORM.
       *
       ******************************************************************
       *  Cette procédure calcule la valeur future et la montre
@@ -211,4 +220,3 @@
                    "VEUILLEZ RECOMMENCER.".
            PERFORM 000-CALCUL-TOTAL-INTERET. *> Pas sûr
       *
-      
