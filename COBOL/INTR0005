@@ -223,6 +223,5 @@
            DISPLAY BARRE-SEPARATION.
            DISPLAY "MONTANT CALCULE TROP ELEVE. "
                    "VEUILLEZ RECOMMENCER.".
-           PERFORM 000-CALCUL-TOTAL-INTERET. *> Pas sûr
+           PERFORM 000-CALCUL-TOTAL-INTERET.
       *
-      
