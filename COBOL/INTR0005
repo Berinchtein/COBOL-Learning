@@ -23,21 +23,11 @@
        SOURCE-COMPUTER. IBM-Z.
        OBJECT-COMPUTER. IBM-Z.
        INPUT-OUTPUT SECTION.
-       FILE-CONTROL.
-           *> report SELECT INFILE ASSIGN  TO INFILEDD.
-           *> report SELECT OUTFILE ASSIGN TO OUTFILEDD.
       *****************************************************************
       *
       *****************************************************************
        DATA DIVISION.
        FILE SECTION.
-       *> report FD  File1
-            *> report LABEL RECORDS ARE STANDARD
-            *> report DATA RECORD IS RecName
-            *> report RECORD CONTAINS RecordLength CHARACTERS
-            *> report RECORDING MODE IS F
-            *> report BLOCK CONTAINS 0 RECORDS.
-       *> report 01  Rec1    PIC X(RecordLength).
       *****************************************************************
        WORKING-STORAGE SECTION.
       *
