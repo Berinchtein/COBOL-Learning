@@ -77,7 +77,8 @@
       *  Cette procédure gère l'exécution globale du programme
       ******************************************************************
        000-CALCUL-TOTAL-INTERET.
-      *
+      *    
+           DISPLAY BARRE-SEPARATION.
            PERFORM 100-CALCUL-UN-INTERET
               UNTIL(FIN-DE-SESSION).
            DISPLAY BARRE-SEPARATION.
@@ -92,20 +93,29 @@
       ******************************************************************
        100-CALCUL-UN-INTERET.
       *
-           DISPLAY BARRE-SEPARATION.
-           DISPLAY "POUR TERMINER LE PROGRAMME, ENTRER 0.".
-           DISPLAY "ENTRER LE MONTANT DE L'INVESTISSEMENT:".
-           ACCEPT VALEUR-ACTUELLE.
-           IF (VALEUR-ACTUELLE = 0)
-              MOVE "Y" TO FIN-DE-SECTION-SWITCH
-           ELSE
-              MOVE VALEUR-ACTUELLE TO VALEUR-ENTREE-FORMATTEE
-              PERFORM 110-DMD-CONFIRMATION-VALEUR
+           PERFORM 105-DMD-VALEUR-ACTUELLE.
+           IF (NOT FIN-DE-SESSION)
               PERFORM 200-DMD-NOMBRE-ANNEES
               PERFORM 300-DMD-TAUX-INTERET
               PERFORM 400-DMD-TYPE-TAUX-INTERET
               PERFORM 700-MONTRER-VALEUR-FUTURE
            END-IF.
+      *
+      ******************************************************************
+      *  Cette procédure demande la valeur actuelle à l'utilisateur
+      ******************************************************************
+       105-DMD-VALEUR-ACTUELLE.
+           PERFORM
+              WITH TEST AFTER
+              UNTIL(CONFIRM-ENTREE)
+                   DISPLAY "POUR TERMINER LE PROGRAMME, ENTRER 0."
+                   DISPLAY "ENTRER LE MONTANT DE L'INVESTISSEMENT:"
+                   ACCEPT VALEUR-ACTUELLE
+                   MOVE VALEUR-ACTUELLE TO VALEUR-ENTREE-FORMATTEE
+                   PERFORM 110-DMD-CONFIRMATION-VALEUR
+                   IF (VALEUR-ACTUELLE = 0)
+                      MOVE "Y" TO FIN-DE-SECTION-SWITCH
+           END-PERFORM.
       *
       ******************************************************************
       *  Cette procédure confirme une valeur entrée avec l'utilisateur
@@ -225,4 +235,3 @@
                    "VEUILLEZ RECOMMENCER.".
            PERFORM 000-CALCUL-TOTAL-INTERET.
       *
-      
