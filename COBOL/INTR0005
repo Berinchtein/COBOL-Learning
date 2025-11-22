@@ -52,17 +52,11 @@
                 88 CORRECT-TAUX-INTERET                VALUE 0 THRU 50.
              10 NOMBRE-ANNEES           PIC 9(3).
                 88 CORRECT-NOMBRE-ANNEES               VALUE 1 THRU 500.
-             10 TYPE-TAUX-INTERET       PIC X(9).
-                88 CORRECT-TYPE-TAUX-INTERET           VALUE
-                      "ANNUEL" "annuel"
-                      "MENSUEL" "mensuel"
-                      "QUOTIDIEN" "quotidien".
-                88 TYPE-TAUX-INTERET-ANNUEL            VALUE
-                      "ANNUEL" "annuel".
-                88 TYPE-TAUX-INTERET-MENSUEL           VALUE
-                      "MENSUEL" "mensuel".
-                88 TYPE-TAUX-INTERET-QUOTIDIEN         VALUE
-                      "QUOTIDIEN" "quotidien".
+             10 TYPE-TAUX-INTERET       PIC 9.
+                88 CORRECT-TYPE-TAUX-INTERET           VALUE 1 2 3.
+                88 TYPE-TAUX-INTERET-ANNUEL            VALUE 1.
+                88 TYPE-TAUX-INTERET-MENSUEL           VALUE 2.
+                88 TYPE-TAUX-INTERET-QUOTIDIEN         VALUE 3.
       *
        01 VARIABLES-TRAVAIL.
           05 VALEURS-MONETAIRES.
@@ -247,16 +241,19 @@
       *
            PERFORM
               WITH TEST AFTER
-              UNTIL(CORRECT-TYPE-TAUX-INTERET AND CONFIRM-ENTREE)
+              UNTIL(CORRECT-TYPE-TAUX-INTERET)
                    DISPLAY "ENTRER LA FREQUENCE "
                            "D'APPLICATION DU TAUX D'INTERET ANNUEL:"
-                   DISPLAY "TYPES POSSIBLE: 'ANNUEL', "
-                           "'MENSUEL' ET 'QUOTIDIEN'"
+                   DISPLAY "CHOIX POSSIBLES:"
+                   DISPLAY "'1': ANNUELLEMENT, 1 FOIS PAR ANNEE"
+                   DISPLAY "'2': MENSUELLEMENT, 12 FOIS PAR ANNEE"
+                   DISPLAY "'3': QUOTIDIENNEMENT, 365 FOIS PAR ANNEE"
                    ACCEPT TYPE-TAUX-INTERET
-                   IF (NOT CORRECT-TYPE-TAUX-INTERET AND CONFIRM-ENTREE)
+                   IF (NOT CORRECT-TYPE-TAUX-INTERET)
                       DISPLAY
-                         "FREQUENCE D'APPLICATION DU TAUX D'INTERET "
-                         "INCORRECT. VEUILLEZ REESSAYER."
+                         "FREQUENCE D'APPLICATION DU TAUX D'INTERET
+      -               " INCORRECT. VEUILLEZ REESSAYER AVEC LE BON
+      -               " CHIFFRE."
                    END-IF
            END-PERFORM.
       *
@@ -309,3 +306,4 @@
            DISPLAY BARRE-SEPARATION.
            MOVE "Y" TO ANNULER-SUITE-CALCUL-SWITCH.
       *
+      
