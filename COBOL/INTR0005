@@ -295,6 +295,7 @@
               MOVE VALEUR-FUTURE TO VALEUR-FUTURE-FORMATTEE
               DISPLAY BARRE-SEPARATION
               DISPLAY "VALEUR-FUTURE = " VALEUR-FUTURE-FORMATTEE "$"
+              DISPLAY BARRE-SEPARATION
            END-IF.
       *
       ******************************************************************
