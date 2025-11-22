@@ -37,8 +37,11 @@
                    "Y" "N"
                    "y" "n".
              88 CONFIRM-ENTREE                         VALUE "Y" "y".
-          05 FIN-DE-SECTION-SWITCH      PIC X          VALUE "N".
+          05 FIN-DE-SESSION-SWITCH      PIC X          VALUE "N".
              88 FIN-DE-SESSION                         VALUE "Y".
+          05 ANNULER-SUITE-CALCUL-SWITCH
+                                        PIC X          VALUE "N".
+             88 ANNUEL-SUITE-CALCUL                    VALUE "Y".
       *
        01 ENTREES-UTILISATEUR.
           05 VALEURS-MONETAIRES.
@@ -158,6 +161,7 @@
       ******************************************************************
        100-CALCUL-UN-INTERET.
       *
+           MOVE "N" TO ANNULER-SUITE-CALCUL-SWITCH.
            PERFORM 105-DMD-VALEUR-ACTUELLE.
            IF (NOT FIN-DE-SESSION)
               PERFORM 200-DMD-NOMBRE-ANNEES
@@ -180,7 +184,7 @@
                    MOVE VALEUR-ACTUELLE TO VALEUR-ENTREE-FORMATTEE
                    PERFORM 110-DMD-CONFIRMATION-VALEUR
                    IF (VALEUR-ACTUELLE = 0)
-                      MOVE "Y" TO FIN-DE-SECTION-SWITCH
+                      MOVE "Y" TO FIN-DE-SESSION-SWITCH
            END-PERFORM.
       *
       ******************************************************************
@@ -287,9 +291,11 @@
                    PERFORM 710-ERREUR-MONTANT-ELEVE
                 END-COMPUTE
            END-EVALUATE.
-           MOVE VALEUR-FUTURE TO VALEUR-FUTURE-FORMATTEE.
-           DISPLAY BARRE-SEPARATION.
-           DISPLAY "VALEUR-FUTURE = " VALEUR-FUTURE-FORMATTEE "$".
+           IF (NOT ANNUEL-SUITE-CALCUL)
+              MOVE VALEUR-FUTURE TO VALEUR-FUTURE-FORMATTEE
+              DISPLAY BARRE-SEPARATION
+              DISPLAY "VALEUR-FUTURE = " VALEUR-FUTURE-FORMATTEE "$"
+           END-IF.
       *
       ******************************************************************
       *  Cette procédure recommence le programme en cas d'erreur ON SIZE
@@ -299,6 +305,6 @@
            DISPLAY BARRE-SEPARATION.
            DISPLAY "MONTANT CALCULE TROP ELEVE. "
                    "VEUILLEZ RECOMMENCER.".
-           PERFORM 000-CALCUL-TOTAL-INTERET.
+           DISPLAY BARRE-SEPARATION.
+           MOVE "Y" TO ANNULER-SUITE-CALCUL-SWITCH.
       *
-      
