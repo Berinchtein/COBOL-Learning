@@ -41,7 +41,7 @@
              88 FIN-DE-SESSION                         VALUE "Y".
           05 ANNULER-SUITE-CALCUL-SWITCH
                                         PIC X          VALUE "N".
-             88 ANNUEL-SUITE-CALCUL                    VALUE "Y".
+             88 ANNULER-SUITE-CALCUL                   VALUE "Y".
       *
        01 ENTREES-UTILISATEUR.
           05 VALEURS-MONETAIRES.
@@ -291,7 +291,7 @@
                    PERFORM 710-ERREUR-MONTANT-ELEVE
                 END-COMPUTE
            END-EVALUATE.
-           IF (NOT ANNUEL-SUITE-CALCUL)
+           IF (NOT ANNULER-SUITE-CALCUL)
               MOVE VALEUR-FUTURE TO VALEUR-FUTURE-FORMATTEE
               DISPLAY BARRE-SEPARATION
               DISPLAY "VALEUR-FUTURE = " VALEUR-FUTURE-FORMATTEE "$"
