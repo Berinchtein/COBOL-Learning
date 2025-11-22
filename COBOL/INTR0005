@@ -69,6 +69,16 @@
              10 BARRE-SEPARATION        PIC X(50)
                                                        VALUE
                    "--------------------------------------------------".
+      *
+       01 DATE-ET-HEURE-ACTUELLE.
+          05 DATE-ACTUELLE.
+             10 DH-ANNEE-ACTUELLE       PIC 9(4).
+             10 DH-MOIS-ACTUEL          PIC 9(2).
+             10 DH-JOUR-ACTUEL          PIC 9(2).
+          05 HEURE-ACTUELLE.
+             10 DH-HEURE-ACTUELLE       PIC 9(2).
+             10 DH-MINUTE-ACTUELLE      PIC 9(2).
+          05 DH-MOIS-ACTUEL-FORMATTE    PIC X(9).
       *****************************************************************
       *
       ******************************************************************
@@ -78,7 +88,7 @@
       ******************************************************************
        000-CALCUL-TOTAL-INTERET.
       *    
-           DISPLAY BARRE-SEPARATION.
+           PERFORM 005-MONTRER-MESSAGE-BIENVENUE.
            PERFORM 100-CALCUL-UN-INTERET
               UNTIL(FIN-DE-SESSION).
            DISPLAY BARRE-SEPARATION.
@@ -89,7 +99,62 @@
            STOP RUN.
       *
       ******************************************************************
-      *  Cette procédure exécute une itération de demandes et calcul
+      *  Cette procédure montre le message de bienvenue du programme
+      ******************************************************************
+       005-MONTRER-MESSAGE-BIENVENUE.
+      *
+           DISPLAY BARRE-SEPARATION.
+           DISPLAY "BIENVENUE DANS LE PROGRAMME DE CALCUL "
+                   "D'INTERET DE MANU!".
+           MOVE FUNCTION CURRENT-DATE TO DATE-ET-HEURE-ACTUELLE
+           PERFORM 010-INITIALISATION-MOIS-ACTUEL.
+           DISPLAY "NOUS SOMMES PRESENTEMENT LE "
+                   DH-JOUR-ACTUEL
+                   " "
+                   DH-MOIS-ACTUEL-FORMATTE
+                   " "
+                   DH-ANNEE-ACTUELLE
+                   ". IL EST "
+                   DH-HEURE-ACTUELLE
+                   "H"
+                   DH-MINUTE-ACTUELLE
+                   ".".
+           DISPLAY BARRE-SEPARATION.    
+      *
+      ******************************************************************
+      *  Cette procédure initialise le mois en format alphanumérique
+      ******************************************************************
+       010-INITIALISATION-MOIS-ACTUEL.
+      *
+           EVALUATE DH-MOIS-ACTUEL
+           WHEN 1
+                MOVE "JANVIER" TO DH-MOIS-ACTUEL-FORMATTE
+           WHEN 2
+                MOVE "FEVRIER" TO DH-MOIS-ACTUEL-FORMATTE
+           WHEN 3
+                MOVE "MARS" TO DH-MOIS-ACTUEL-FORMATTE
+           WHEN 4
+                MOVE "AVRIL" TO DH-MOIS-ACTUEL-FORMATTE
+           WHEN 5
+                MOVE "MAI" TO DH-MOIS-ACTUEL-FORMATTE
+           WHEN 6
+                MOVE "JUIN" TO DH-MOIS-ACTUEL-FORMATTE
+           WHEN 7
+                MOVE "JUILLET" TO DH-MOIS-ACTUEL-FORMATTE
+           WHEN 8
+                MOVE "AOUT" TO DH-MOIS-ACTUEL-FORMATTE
+           WHEN 9
+                MOVE "SEPTEMBRE" TO DH-MOIS-ACTUEL-FORMATTE
+           WHEN 10
+                MOVE "OCTOBRE" TO DH-MOIS-ACTUEL-FORMATTE
+           WHEN 11
+                MOVE "NOVEMBRE" TO DH-MOIS-ACTUEL-FORMATTE
+           WHEN 12
+                MOVE "DECEMBRE" TO DH-MOIS-ACTUEL-FORMATTE
+           END-EVALUATE.
+      *
+      ******************************************************************
+      *  Cette procédure exécute une itération de demandes et de calcul
       ******************************************************************
        100-CALCUL-UN-INTERET.
       *
@@ -105,6 +170,7 @@
       *  Cette procédure demande la valeur actuelle à l'utilisateur
       ******************************************************************
        105-DMD-VALEUR-ACTUELLE.
+      *
            PERFORM
               WITH TEST AFTER
               UNTIL(CONFIRM-ENTREE)
@@ -235,3 +301,4 @@
                    "VEUILLEZ RECOMMENCER.".
            PERFORM 000-CALCUL-TOTAL-INTERET.
       *
+      
