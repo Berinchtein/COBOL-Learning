@@ -47,7 +47,7 @@
           05 VALEURS-MONETAIRES.
              10 VALEUR-ACTUELLE         PIC 9(9)V99.
           05 VALEURS-AUTRES.
-             10 VALEUR-ENTREE-FORMATTEE PIC ZZZ,ZZZ,ZZZ.99.
+             10 VALEUR-ENTREE-FORMATTEE PIC ZZZ,ZZZ,ZZ9.99.
              10 TAUX-INTERET            PIC 9(2)V99.
                 88 CORRECT-TAUX-INTERET                VALUE 0 THRU 50.
              10 NOMBRE-ANNEES           PIC 9(3).
