@@ -183,6 +183,8 @@
                    PERFORM 110-DMD-CONFIRMATION-VALEUR
                    IF (VALEUR-ACTUELLE = 0)
                       MOVE "Y" TO FIN-DE-SESSION-SWITCH
+                   ELSE
+                      MOVE "N" TO FIN-DE-SESSION-SWITCH
            END-PERFORM.
       *
       ******************************************************************
@@ -307,3 +309,4 @@
            DISPLAY BARRE-SEPARATION.
            MOVE "Y" TO ANNULER-SUITE-CALCUL-SWITCH.
       *
+      
