@@ -117,7 +117,7 @@
            DISPLAY BARRE-SEPARATION.    
       *
       ******************************************************************
-      *  Cette procédure initialise le mois en format alphanumérique
+      *  Cette procédure initialise le mois en format alphabétique
       ******************************************************************
        010-INITIALISATION-MOIS-ACTUEL.
       *
