@@ -83,7 +83,7 @@
       ******************************************************************
        000-CALCUL-TOTAL-INTERET.
       *    
-           PERFORM 005-MONTRER-MESSAGE-BIENVENUE.
+           PERFORM 030-MONTRER-MESSAGE-BIENVENUE.
            PERFORM 100-CALCUL-UN-INTERET
               UNTIL(FIN-DE-SESSION).
            DISPLAY BARRE-SEPARATION.
@@ -96,13 +96,13 @@
       ******************************************************************
       *  Cette procédure montre le message de bienvenue du programme
       ******************************************************************
-       005-MONTRER-MESSAGE-BIENVENUE.
+       030-MONTRER-MESSAGE-BIENVENUE.
       *
            DISPLAY BARRE-SEPARATION.
            DISPLAY "BIENVENUE DANS LE PROGRAMME DE CALCUL D'INTERET DE M
       -    "ANU!".
            MOVE FUNCTION CURRENT-DATE TO DATE-ET-HEURE-ACTUELLE
-           PERFORM 010-INITIALISATION-MOIS-ACTUEL.
+           PERFORM 060-INITIALISATION-MOIS-ACTUEL.
            DISPLAY "NOUS SOMMES PRESENTEMENT LE "
                    DH-JOUR-ACTUEL
                    " "
@@ -119,7 +119,7 @@
       ******************************************************************
       *  Cette procédure initialise le mois en format alphabétique
       ******************************************************************
-       010-INITIALISATION-MOIS-ACTUEL.
+       060-INITIALISATION-MOIS-ACTUEL.
       *
            EVALUATE DH-MOIS-ACTUEL
            WHEN 1
@@ -154,18 +154,18 @@
        100-CALCUL-UN-INTERET.
       *
            MOVE "N" TO ANNULER-SUITE-CALCUL-SWITCH.
-           PERFORM 105-DMD-VALEUR-ACTUELLE.
+           PERFORM 200-DMD-VALEUR-ACTUELLE.
            IF (NOT FIN-DE-SESSION)
-              PERFORM 200-DMD-NOMBRE-ANNEES
-              PERFORM 300-DMD-TAUX-INTERET
-              PERFORM 400-DMD-TYPE-TAUX-INTERET
-              PERFORM 700-MONTRER-VALEUR-FUTURE
+              PERFORM 300-DMD-NOMBRE-ANNEES
+              PERFORM 400-DMD-TAUX-INTERET
+              PERFORM 500-DMD-TYPE-TAUX-INTERET
+              PERFORM 800-MONTRER-VALEUR-FUTURE
            END-IF.
       *
       ******************************************************************
       *  Cette procédure demande la valeur actuelle à l'utilisateur
       ******************************************************************
-       105-DMD-VALEUR-ACTUELLE.
+       200-DMD-VALEUR-ACTUELLE.
       *
            PERFORM
               WITH TEST AFTER
@@ -174,7 +174,7 @@
                    DISPLAY "ENTREZ LE MONTANT INITIAL:"
                    ACCEPT VALEUR-ACTUELLE
                    MOVE VALEUR-ACTUELLE TO VALEUR-ENTREE-FORMATTEE
-                   PERFORM 110-DMD-CONFIRMATION-VALEUR
+                   PERFORM 230-DMD-CONFIRMATION-VALEUR
                    IF (VALEUR-ACTUELLE = 0)
                       MOVE "Y" TO FIN-DE-SESSION-SWITCH
                    ELSE
@@ -184,7 +184,7 @@
       ******************************************************************
       *  Cette procédure confirme une valeur entrée avec l'utilisateur
       ******************************************************************
-       110-DMD-CONFIRMATION-VALEUR.
+       230-DMD-CONFIRMATION-VALEUR.
       *
            PERFORM
               WITH TEST AFTER
@@ -200,7 +200,7 @@
       ******************************************************************
       *  Cette procédure demande le nombre d'années à l'utilisateur
       ******************************************************************
-       200-DMD-NOMBRE-ANNEES.
+       300-DMD-NOMBRE-ANNEES.
       *
            PERFORM
               WITH TEST AFTER
@@ -208,7 +208,7 @@
                    DISPLAY "ENTREZ LE NOMBRE D'ANNEES:"
                    ACCEPT NOMBRE-ANNEES
                    MOVE NOMBRE-ANNEES TO VALEUR-ENTREE-FORMATTEE
-                   PERFORM 110-DMD-CONFIRMATION-VALEUR
+                   PERFORM 230-DMD-CONFIRMATION-VALEUR
                    IF (NOT CORRECT-NOMBRE-ANNEES AND CONFIRM-ENTREE)
                       DISPLAY "NOMBRE D'ANNEES INCORRECT. VEUILLEZ REESS
       -               "AYER AVEC UN VALEUR ENTRE 0 ET 500."  
@@ -218,7 +218,7 @@
       ******************************************************************
       *  Cette procédure demande le taux d'intérêt à l'utilisateur
       ******************************************************************
-       300-DMD-TAUX-INTERET.
+       400-DMD-TAUX-INTERET.
       *
            PERFORM
               WITH TEST AFTER
@@ -226,7 +226,7 @@
                    DISPLAY "ENTREZ LE TAUX D'INTERET ANNUEL:"
                    ACCEPT TAUX-INTERET
                    MOVE TAUX-INTERET TO VALEUR-ENTREE-FORMATTEE
-                   PERFORM 110-DMD-CONFIRMATION-VALEUR
+                   PERFORM 230-DMD-CONFIRMATION-VALEUR
                    IF (NOT CORRECT-TAUX-INTERET AND CONFIRM-ENTREE)
                       DISPLAY "TAUX D'INTERET ANNUEL INCORRECT. VEUILLEZ
       -               " REESSAYER AVEC UNE VALEUR ENTRE 0.00% ET 50.00%"
@@ -236,7 +236,7 @@
       ******************************************************************
       *  Cette procédure demande le type de taux d'intérêt à l'util...
       ******************************************************************
-       400-DMD-TYPE-TAUX-INTERET.
+       500-DMD-TYPE-TAUX-INTERET.
       *
            PERFORM
               WITH TEST AFTER
@@ -258,7 +258,7 @@
       ******************************************************************
       *  Cette procédure calcule la valeur future et la montre
       ******************************************************************
-       700-MONTRER-VALEUR-FUTURE.
+       800-MONTRER-VALEUR-FUTURE.
       *
            EVALUATE TRUE
            WHEN TYPE-TAUX-INTERET-ANNUEL 
@@ -267,7 +267,7 @@
                    TAUX-INTERET / 100) **
                    NOMBRE-ANNEES
                 ON SIZE ERROR
-                   PERFORM 710-ERREUR-MONTANT-ELEVE
+                   PERFORM 810-ERREUR-MONTANT-ELEVE
                 END-COMPUTE
            WHEN TYPE-TAUX-INTERET-MENSUEL
                 COMPUTE VALEUR-FUTURE =
@@ -275,7 +275,7 @@
                    (TAUX-INTERET / 12) / 100) **
                    (NOMBRE-ANNEES * 12)
                 ON SIZE ERROR
-                   PERFORM 710-ERREUR-MONTANT-ELEVE
+                   PERFORM 810-ERREUR-MONTANT-ELEVE
                 END-COMPUTE
            WHEN TYPE-TAUX-INTERET-QUOTIDIEN 
                 COMPUTE VALEUR-FUTURE =
@@ -283,7 +283,7 @@
                    (TAUX-INTERET / 365) / 100) **
                    (NOMBRE-ANNEES * 365)
                 ON SIZE ERROR
-                   PERFORM 710-ERREUR-MONTANT-ELEVE
+                   PERFORM 810-ERREUR-MONTANT-ELEVE
                 END-COMPUTE
            END-EVALUATE.
            IF (NOT ANNULER-SUITE-CALCUL)
@@ -296,7 +296,7 @@
       ******************************************************************
       *  Cette procédure recommence le programme en cas d'erreur ON SIZE
       ******************************************************************
-       710-ERREUR-MONTANT-ELEVE.
+       810-ERREUR-MONTANT-ELEVE.
       *
            DISPLAY BARRE-SEPARATION.
            DISPLAY "MONTANT CALCULE TROP ELEVE. VEUILLEZ RECOMMENCER.".
