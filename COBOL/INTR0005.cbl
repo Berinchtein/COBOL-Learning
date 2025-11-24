@@ -11,9 +11,9 @@
        IDENTIFICATION DIVISION.
        PROGRAM-ID.  INTR0005.
        AUTHOR. MANUEL JARRY Z85614.
-       INSTALLATION. IBM Z Xplore.
+       INSTALLATION. IBM Z Xplore Learning Platform.
        DATE-WRITTEN. 15/11/2025.
-       DATE-COMPILED. JJ/11/2025.
+       DATE-COMPILED. 24/11/2025.
        SECURITY. NON-CONFIDENTIAL.
       *****************************************************************
       *
@@ -83,7 +83,9 @@
       ******************************************************************
        000-CALCUL-TOTAL-INTERET.
       *    
+           DISPLAY BARRE-SEPARATION.
            PERFORM 030-MONTRER-MESSAGE-BIENVENUE.
+           DISPLAY BARRE-SEPARATION.
            PERFORM 100-CALCUL-UN-INTERET
               UNTIL(FIN-DE-SESSION).
            DISPLAY BARRE-SEPARATION.
@@ -98,7 +100,6 @@
       ******************************************************************
        030-MONTRER-MESSAGE-BIENVENUE.
       *
-           DISPLAY BARRE-SEPARATION.
            DISPLAY "BIENVENUE DANS LE PROGRAMME DE CALCUL D'INTERET DE M
       -    "ANU!".
            MOVE FUNCTION CURRENT-DATE TO DATE-ET-HEURE-ACTUELLE
@@ -114,7 +115,6 @@
                    "H"
                    DH-MINUTE-ACTUELLE
                    ".".
-           DISPLAY BARRE-SEPARATION.    
       *
       ******************************************************************
       *  Cette procédure initialise le mois en format alphabétique
@@ -156,10 +156,15 @@
            MOVE "N" TO ANNULER-SUITE-CALCUL-SWITCH.
            PERFORM 200-DMD-VALEUR-ACTUELLE.
            IF (NOT FIN-DE-SESSION)
+              DISPLAY BARRE-SEPARATION
               PERFORM 300-DMD-NOMBRE-ANNEES
+              DISPLAY BARRE-SEPARATION
               PERFORM 400-DMD-TAUX-INTERET
+              DISPLAY BARRE-SEPARATION
               PERFORM 500-DMD-TYPE-TAUX-INTERET
+              DISPLAY BARRE-SEPARATION
               PERFORM 800-MONTRER-VALEUR-FUTURE
+              DISPLAY BARRE-SEPARATION
            END-IF.
       *
       ******************************************************************
@@ -288,9 +293,7 @@
            END-EVALUATE.
            IF (NOT ANNULER-SUITE-CALCUL)
               MOVE VALEUR-FUTURE TO VALEUR-FUTURE-FORMATTEE
-              DISPLAY BARRE-SEPARATION
               DISPLAY "LA MONTANT FUTUR SERA: " VALEUR-FUTURE-FORMATTEE
-              DISPLAY BARRE-SEPARATION
            END-IF.
       *
       ******************************************************************
@@ -298,9 +301,7 @@
       ******************************************************************
        810-ERREUR-MONTANT-ELEVE.
       *
-           DISPLAY BARRE-SEPARATION.
            DISPLAY "MONTANT CALCULE TROP ELEVE. VEUILLEZ RECOMMENCER.".
-           DISPLAY BARRE-SEPARATION.
            MOVE "Y" TO ANNULER-SUITE-CALCUL-SWITCH.
       *
       
