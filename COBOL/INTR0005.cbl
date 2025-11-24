@@ -174,16 +174,16 @@
       *
            PERFORM
               WITH TEST AFTER
-              UNTIL(CONFIRM-ENTREE)
+              UNTIL(CONFIRM-ENTREE OR FIN-DE-SESSION)
                    DISPLAY "POUR TERMINER LE PROGRAMME, ENTREZ 0."
                    DISPLAY "ENTREZ LE MONTANT INITIAL:"
                    ACCEPT VALEUR-ACTUELLE
                    MOVE VALEUR-ACTUELLE TO VALEUR-ENTREE-FORMATTEE
-                   PERFORM 230-DMD-CONFIRMATION-VALEUR
                    IF (VALEUR-ACTUELLE = 0)
                       MOVE "Y" TO FIN-DE-SESSION-SWITCH
                    ELSE
                       MOVE "N" TO FIN-DE-SESSION-SWITCH
+                      PERFORM 230-DMD-CONFIRMATION-VALEUR
            END-PERFORM.
       *
       ******************************************************************
