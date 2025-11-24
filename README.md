@@ -1,5 +1,7 @@
 # Apprentissage COBOL
 
+[CE README N'EST PLUS À JOUR, MISES À JOURS À VENIR]
+
 Ce répertoire contient mes fichiers COBOL provenant de mon apprentissage de ce language. Je décrit aussi le processus d'apprentissage avec les logiciels que j'utilise et les ressources que je consulte.
 
 ## Logiciels utilisés
